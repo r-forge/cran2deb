@@ -8,7 +8,7 @@
 umask 002
 root=$1
 shift
-sys=`{cran2deb which_sys}
+sys=`{cran2deb which_system}
 mkdir -p /var/cache/cran2deb/results/$sys || exit 1
 mini-dinstall --batch -c /etc/cran2deb/sys/$sys/mini-dinstall.conf || exit 1
 update_period=10800
