@@ -18,11 +18,12 @@
     global("changesfile", function(srcname,version='*') {
         return(file.path(pbuilder_results
                         ,paste(srcname,'_',version,'_'
-                              ,host_arch(),'.changes',sep='')))
+                              ,host_arch,'.changes',sep='')))
     })
 
     cache <- file.path(cache_root,'cache.rda')
     if (file.exists(cache)) {
         load(cache,envir=.GlobalEnv)
     }
+    message(paste('I: cran2deb',scm_revision,'building for',which_sys))
 }
