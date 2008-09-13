@@ -10,8 +10,8 @@
     global("cache_root", '/var/cache/cran2deb')
     global("pbuilder_results",  file.path('/var/cache/cran2deb/results',which_sys))
     global("pbuilder_config",   file.path('/etc/cran2deb/sys',which_sys,'pbuilderrc'))
-    global("dput_config",       file.path('/etc/cran2deb/sys',which_sys,'dput.cf')
-    global("dinstall_config",   file.path('/etc/cran2deb/sys',which_sys,'mini-dinstall.conf')
+    global("dput_config",       file.path('/etc/cran2deb/sys',which_sys,'dput.cf'))
+    global("dinstall_config",   file.path('/etc/cran2deb/sys',which_sys,'mini-dinstall.conf'))
     global("dinstall_archive",  file.path('/etc/cran2deb/archive',which_sys))
     global("r_depend_fields", c('Depends','Imports')) # Suggests, Enhances
     global("scm_revision", 'svn:$Id$')
