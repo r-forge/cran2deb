@@ -1,0 +1,9 @@
+#!/usr/bin/rc
+root=`{r -e 'suppressMessages(library(cran2deb));cat(system.file(package=''cran2deb''),file=stdout())'}
+cmd=$1
+shift
+if ([ ! -x $root/exec/$cmd ]) {
+    echo unknown command $cmd
+    exit 1
+}
+$root/exec/$cmd $root $*

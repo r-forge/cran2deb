@@ -1,0 +1,41 @@
+#!/usr/bin/rc
+## DOC: cran2deb update
+## DOC:     update the cran2deb cache and database
+## DOC: cran2deb update full
+## DOC:     force a full update of the cran2deb cache and database
+## DOC:
+
+umask 022
+root=$1
+shift
+for (x in `{find $root/etc -type f -name '*.in'}) {
+    y=`{echo $x | sed -e 's,.in$,,'}
+    sed -e 's:@ROOT@:'^$root^':g' <$x >$y
+}
+mkdir -p /var/cache/cran2deb/results || exit 1
+if ([ ! -e $root/var/archive ]) {
+    # I symbolically link this into /var/www/
+    mkdir $root/var/archive || exit 1
+}
+mini-dinstall --batch -c $root/etc/mini-dinstall.conf || exit 1
+update_period=10800
+if (~ $1 full || ![ -e /var/cache/cran2deb/cache.rda ] ) {
+    delta=`{awk 'END{print '^$update_period^'+1}' </dev/null}
+    echo Forcing cache update
+} else {
+    delta=`{awk 'END{print '^`{date +%s}^-^`{stat -c '%Y' /var/cache/cran2deb/cache.rda}^'}' </dev/null}
+    echo Cache is $delta seconds out of date.
+}
+if (![ -e /var/cache/cran2deb/cache.rda ] || [ $delta -gt $update_period ]) {
+    mode=create
+    if ([ -e /var/cache/pbuilder/base-cran2deb.tgz ]) {
+        mode=update
+    }
+    sudo pbuilder $mode --override-config --configfile $root/etc/pbuilderrc
+    $root/exec/update_cache $root
+}
+if (![ -e /var/cache/cran2deb/cran2deb.db ] || [ $delta -gt $update_period ]) {
+    cat $root/data/^(populate_licenses quit) | $root/exec/license $root
+    cat $root/data/^(populate_depend_aliases populate_sysreq populate_forcedep quit) | $root/exec/depend $root
+}
+
