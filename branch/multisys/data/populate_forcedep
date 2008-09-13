@@ -24,8 +24,5 @@ force r-recommended spBayes
 force libxt Cairo 
 force autotools qp 
 force boost MBA 
-force scalapack-mpich-dev scalapack 
-force libatlas-base-dev blas 
-force blacsgf-mpich-dev blacs 
 force mpich RScaLAPACK 
 force libblas odesolve 
