@@ -1,6 +1,6 @@
 .First.lib <- function(libname, pkgname) {
     global <- function(name,value) assign(name,value,envir=.GlobalEnv)
-    which_sys <- Sys.getenv('CRAN2DEB_SYS','debian-amd64')
+    global("which_sys", Sys.getenv('CRAN2DEB_SYS','debian-amd64'))
     if (!length(grep('^[a-z]+-[a-z0-9]+$',which_sys))) {
         stop('Invalid system specification: must be of the form name-arch')
     }
