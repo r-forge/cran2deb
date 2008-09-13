@@ -33,7 +33,6 @@ generate_changelog_entry <- function(build, changelog) {
 generate_rules <- function(pkg) {
     cat(paste('#!/usr/bin/make -f'
              ,paste('debRreposname :=',pkg$repo)
-             ,'include /usr/share/cdbs/1/rules/simple-patchsys.mk'
              ,'include /usr/share/R/debian/r-cran.mk'
              ,'',sep='\n')
        ,file=pkg$debfile('rules'))
