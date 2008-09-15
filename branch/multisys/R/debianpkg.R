@@ -1,6 +1,7 @@
 append_build_from_pkg <- function(pkg, builds) {
     pkg_build <- data.frame(id = -1     # never used
                            ,package = pkg$name
+                           ,system = which_system
                            ,r_version = version_upstream(pkg$debversion)
                            ,deb_epoch = version_epoch(pkg$debversion)
                            ,deb_revision = version_revision(pkg$debversion)
