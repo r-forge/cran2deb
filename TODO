@@ -1,4 +1,3 @@
- - exportable apt repository
  - daily updates to minimise rebuilds
  - check versioning is working correctly
  - force'ing to a non-existent alias should fail.
