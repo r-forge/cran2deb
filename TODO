@@ -1,3 +1,5 @@
- - daily updates to minimise rebuilds
- - check versioning is working correctly
  - force'ing to a non-existent alias should fail.
+ - packages can disappear
+ - rm -rf debian/ from tarballs?
+ - geneland dependency failure in apt *not* cran2deb
+ - fine grained bad license breakdown
