@@ -1,5 +1,7 @@
  - force'ing to a non-existent alias should fail.
- - packages can disappear
- - rm -rf debian/ from tarballs?
+ - packages can disappear / be retired
+ - rm -rf debian/ from tarballs? [ Dirk: I can't see off-hand how pbuilder
+	 would allow for that.  I think we should fix the sources for the
+	 clearly buggy package "race" and move on ]
  - geneland dependency failure in apt *not* cran2deb
  - fine grained bad license breakdown
