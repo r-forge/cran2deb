@@ -51,3 +51,4 @@ alias_build sqlite libsqlite3-dev
 alias zlib zlib1g-dev
 alias cshell tsch|csh|c-shell
 alias_build autotools autotools-dev
+alias vcd r-cran-vcd
