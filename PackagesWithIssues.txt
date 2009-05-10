@@ -1,0 +1,78 @@
+debian-i386
+
+Package		Needs			License		Other
+=================================================================================
+
+RESOLVED
+---------------------------------------------------------------------------------
+BARD					AGPL -- added
+DierckxSpline						new version built
+FAiR					AGPL -- added
+StatFingerprints					now builds
+WriteXLS						(lots of) sysreq ignore added
+mlbench					added
+adabag		mlbench					
+ipred		mlbench					
+
+OPEN ISSUES
+---------------------------------------------------------------------------------
+ADaCGH		tilingArray (BioC)
+BayesTree						C++ patch ?
+DAAGbio		limma (BioC ?)
+multtest	BioBase (BioC ?)
+GExMap		multtest (BioC)
+LMGene		multtest (BioC)
+GFMaps		affy (BioC)
+GOSim		GO.db (BioC)
+Geneland	mapproj
+HAPim							odd build failure
+MatchIt							need small patch
+Metabonomic	PROcess (BioC ?)
+PhViD 		LBE ????
+RJaCGH							contains zli, may need patch
+RLadyBug						needs small patch
+Rsymphony						build bombs, patch ?, Debian build
+SNPMaP		affxparser, SNPMaP.cdm (BioC)						
+SubpathwayMiner KEGG.db (BioC)
+SuppDists						build bombs, unclear why
+TSpaid							build bombs, wild linking ?
+alphahull	removed ?
+												
+REJECTED
+---------------------------------------------------------------------------------------------
+gpclib					non-commercial
+AIGIS		gpclib			non-commercial
+DSpat		spatstat -> gpclib	non-commercial
+SGCS		spatstat -> gpclib
+RSurvey		gpclib			non-commercial
+CoCo					not-for-profit
+ConCalendar				non-commercial
+EMCC		mclust
+StatDA		mclust
+mapproj					non-commercial
+Geneland	mapproj			non-commercial			
+PTAk					non-commercial
+SDDA					non-commercial	CSIRO license
+optmatch				non-commercial
+SpectralGEM	optmatch		non-commercial			
+realized				non-commercial
+
+CANNOT BUILD
+----------------------------------------------------------------------------------------------
+CarbonEL						Mac OS X only
+ROracle							requires Oracle libs
+RScaLAPAPCK	licese is free				MPI, Blacs, ScaLAPACK, ...					
+Rcplex							CPLEX library 					
+Rlsf							LSF required
+Rsge							SGE required
+VhayuR							Vhauy required
+
+
+TODO:
+alphahull,arrayImpute,arrayMissPattern,ash,aspace,asypow,bayesCGH,caMassClass,celsius,
+chemometrics,clValid,classGraph,clustTool,clustvarsel,crosshybDetector,dlmap,ecesp
+a,fPortfolio,gWidgetsWWW,gcExplorer,gene2pathway,gmvalid,gpclib,gputools,hopach,
+ipred,klaR,latentnetHRT,logilasso,lsa,mapproj,mclust,mclust02,metaMA,mpm,multtest,mvgraph,
+pcalg,qAnalyst,qdg,rSymPy,race,rankreg,rgrs,rimage,rngwell19937,sabreR,scagnostics,
+sdcMicro,seewave,seqinr,sgeostat,sisus,snpXpert,spatclus,spatialkernel,spatstat
+survcomp,svGUI,svSocket,tlnise,tossm,tsModel,vabayelMix,wgaim,xgobi
