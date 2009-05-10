@@ -5,6 +5,11 @@ Package		Needs			License		Other
 
 RESOLVED
 ---------------------------------------------------------------------------------
+matlab					Rice U -- added					
+rwt		matlab
+arrayImpute	matlab
+rtiff					tiff + gpl -- added
+sendplot	rtiff			
 BARD					AGPL -- added
 DierckxSpline						new version built
 FAiR					AGPL -- added
@@ -69,7 +74,7 @@ VhayuR							Vhauy required
 
 
 TODO:
-alphahull,arrayImpute,arrayMissPattern,ash,aspace,asypow,bayesCGH,caMassClass,celsius,
+,arrayMissPattern,ash,aspace,asypow,bayesCGH,caMassClass,celsius,
 chemometrics,clValid,classGraph,clustTool,clustvarsel,crosshybDetector,dlmap,ecesp
 a,fPortfolio,gWidgetsWWW,gcExplorer,gene2pathway,gmvalid,gpclib,gputools,hopach,
 ipred,klaR,latentnetHRT,logilasso,lsa,mapproj,mclust,mclust02,metaMA,mpm,multtest,mvgraph,
