@@ -5,28 +5,36 @@ Package		Needs			License		Other
 
 RESOLVED
 ---------------------------------------------------------------------------------
-matlab					Rice U -- added					
+matlab					Rice U		added					
 rwt		matlab
 arrayImpute	matlab
-rtiff					tiff + gpl -- added
+rtiff					tiff + gpl	added
 sendplot	rtiff			
-BARD					AGPL -- added
-DierckxSpline						new version built
-FAiR					AGPL -- added
-StatFingerprints					now builds
-WriteXLS						(lots of) sysreq ignore added
+BARD					AGPL 		added
+DierckxSpline						new version builds
+FAiR					AGPL 		added
+StatFingerprints tcltk2					now builds
+WriteXLS						(many) sysreq ignore added
 mlbench					added
 adabag		mlbench					
 ipred		mlbench					
+gwidgetsWWW	Rpad, rebuilt
+rgrs		xclip			added alias_run,sysreq
+scagnostics				scagnostics license -- added
+seewave		flac				    	added alias_run,sysreq			
+snpXpert	tcltk2					now builds 
+tlnise					tlnise license added
+toosm		tlnise					now builds					
+SuppDists						build bombs, DESCRIPTION needs space, patch added
+qAnalyst	SuppDists
+survcomp	SuppDists
 
 OPEN ISSUES
 ---------------------------------------------------------------------------------
 ADaCGH		tilingArray (BioC)
 BayesTree						C++ patch ?
 DAAGbio		limma (BioC ?)
-multtest	BioBase (BioC ?)
-GExMap		multtest (BioC)
-LMGene		multtest (BioC)
+metaMA		limma (BioC ?)
 GFMaps		affy (BioC)
 GOSim		GO.db (BioC)
 Geneland	mapproj
@@ -34,26 +42,68 @@ HAPim							odd build failure
 MatchIt							need small patch
 Metabonomic	PROcess (BioC ?)
 PhViD 		LBE ????
-RJaCGH							contains zli, may need patch
+RJaCGH							contains zlib, may need patch
 RLadyBug						needs small patch
 Rsymphony						build bombs, patch ?, Debian build
 SNPMaP		affxparser, SNPMaP.cdm (BioC)						
 SubpathwayMiner KEGG.db (BioC)
-SuppDists						build bombs, unclear why
+gene2pathway    KEGG.db (BioC)
 TSpaid							build bombs, wild linking ?
 alphahull	removed ?
-												
+ash					statlib ?
+bayesCGH	snapCGH (BioC ?)
+classGraoh	Rgraphviz (BioC ?)			
+gcExplorer	Rgraphviz (BioC ?)											
+logilasso	Rgraphviz (BioC ?)
+pcalg		Rgraphviz (BioC ?)
+qdg		pcalg -> Rgraphviz 
+celsius		BioBase (BioC ?)
+multtest	BioBase (BioC ?)
+hopach		BioBase (BioC ?)
+multtest	BioBase (BioC ?)
+GExMap		multtest (BioC)
+LMGene		multtest (BioC)
+crosshybDetector marray (disappread ?)
+dlmap		empty DESCRIPTION ?
+fPortfolio	RSymphony (which will be in Debian)
+lsa		Rstem ?
+mpm		geneplotter (BioC ?)
+mvgraph		statDA ?
+rSymPy							small patch
+race							remove debian/ from source tarball ?				
+sabreR							contains binary, lintian override ?
+seqinr							contains zlib 
+sgeostat	license ? package gone ?
+sisus		annotate, Biobase (BioC ?)
+svSocket						small patch re tcl path
+
 REJECTED
 ---------------------------------------------------------------------------------------------
 gpclib					non-commercial
 AIGIS		gpclib			non-commercial
+RSurvey		gpclib			non-commercial
+aspace		gpclib
+tossm		gpclib
+spatstat	gpclib
 DSpat		spatstat -> gpclib	non-commercial
 SGCS		spatstat -> gpclib
-RSurvey		gpclib			non-commercial
+arrayMissPattern spatstat -> gpclib
+ecespa		spatstat -> gpclib
+spatclus	spatstat -> gpclib
 CoCo					not-for-profit
+gmvalid		CoCo			not-for-profit			
 ConCalendar				non-commercial
+mclust					non-free
 EMCC		mclust
 StatDA		mclust
+chemometrics	mclust
+clValid		mclust
+latentnetHRT	mclust
+sdcMicro	mclust
+vabayelMix	mclust
+mclust02				non-free
+clustTool	mclust02
+clustvarsel	mclust02
 mapproj					non-commercial
 Geneland	mapproj			non-commercial			
 PTAk					non-commercial
@@ -61,6 +111,12 @@ SDDA					non-commercial	CSIRO license
 optmatch				non-commercial
 SpectralGEM	optmatch		non-commercial			
 realized				non-commercial
+asypow					acm non-commercial
+caMassClass				non-commercial
+mapproj					non-commercial
+rankreg					non-profit
+rngwell19937				non-commercial
+spatialkernel				gpc library in non-commercial
 
 CANNOT BUILD
 ----------------------------------------------------------------------------------------------
@@ -71,13 +127,12 @@ Rcplex							CPLEX library
 Rlsf							LSF required
 Rsge							SGE required
 VhayuR							Vhauy required
-
+gputools						nvcc (>= 2.1)						
+klar							svmlight (non-commercial)
+rgrs							xclip
+rimage							C++ needs g++ 4.* update
+svGUI							komodo
+wgaim							asreml-r
+xgobi							Xgobi
 
 TODO:
-,arrayMissPattern,ash,aspace,asypow,bayesCGH,caMassClass,celsius,
-chemometrics,clValid,classGraph,clustTool,clustvarsel,crosshybDetector,dlmap,ecesp
-a,fPortfolio,gWidgetsWWW,gcExplorer,gene2pathway,gmvalid,gpclib,gputools,hopach,
-ipred,klaR,latentnetHRT,logilasso,lsa,mapproj,mclust,mclust02,metaMA,mpm,multtest,mvgraph,
-pcalg,qAnalyst,qdg,rSymPy,race,rankreg,rgrs,rimage,rngwell19937,sabreR,scagnostics,
-sdcMicro,seewave,seqinr,sgeostat,sisus,snpXpert,spatclus,spatialkernel,spatstat
-survcomp,svGUI,svSocket,tlnise,tossm,tsModel,vabayelMix,wgaim,xgobi
