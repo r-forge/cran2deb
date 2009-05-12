@@ -6,7 +6,7 @@ Package		Needs			License		Other
 RESOLVED
 ---------------------------------------------------------------------------------
 matlab					Rice U		added					
-rwt		matlab
+rwt		matlab			Rice U		
 arrayImpute	matlab
 rtiff					tiff + gpl	added
 sendplot	rtiff			
@@ -18,32 +18,32 @@ WriteXLS						(many) sysreq ignore added
 mlbench					added
 adabag		mlbench					
 ipred		mlbench					
-gwidgetsWWW	Rpad, rebuilt
+gWidgetsWWW	Rpad, rebuilt
 rgrs		xclip			added alias_run,sysreq
 scagnostics				scagnostics license -- added
 seewave		flac				    	added alias_run,sysreq			
 snpXpert	tcltk2					now builds 
 tlnise					tlnise license added
-toosm		tlnise					now builds					
+tsModel		tlnise					now builds					
 SuppDists						build bombs, DESCRIPTION needs space, patch added
 qAnalyst	SuppDists
 survcomp	SuppDists
+BayesTree						added one-line C++ patch 
+HAPim							added one-char DESCRIPTION patch
+MatchIt							added one-line patch
 
 OPEN ISSUES
 ---------------------------------------------------------------------------------
 ADaCGH		tilingArray (BioC)
-BayesTree						C++ patch ?
 DAAGbio		limma (BioC ?)
 metaMA		limma (BioC ?)
 GFMaps		affy (BioC)
 GOSim		GO.db (BioC)
 Geneland	mapproj
-HAPim							odd build failure
-MatchIt							need small patch
 Metabonomic	PROcess (BioC ?)
 PhViD 		LBE ????
+RLadyBug						added small patch, still fails ??
 RJaCGH							contains zlib, may need patch
-RLadyBug						needs small patch
 Rsymphony						build bombs, patch ?, Debian build
 SNPMaP		affxparser, SNPMaP.cdm (BioC)						
 SubpathwayMiner KEGG.db (BioC)
