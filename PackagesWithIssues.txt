@@ -31,6 +31,10 @@ survcomp	SuppDists
 BayesTree						added one-line C++ patch 
 HAPim							added one-char DESCRIPTION patch
 MatchIt							added one-line patch
+race							remove debian/ from source tarball -- fixed in cran2deb				
+RJaCGH							contains zlib, added patch to remove it
+seqinr							contains zlib, added patch to remove it
+rSymPy							small patch for python path
 
 OPEN ISSUES
 ---------------------------------------------------------------------------------
@@ -39,16 +43,14 @@ DAAGbio		limma (BioC ?)
 metaMA		limma (BioC ?)
 GFMaps		affy (BioC)
 GOSim		GO.db (BioC)
-Geneland	mapproj
 Metabonomic	PROcess (BioC ?)
 PhViD 		LBE ????
 RLadyBug						added small patch, still fails ??
-RJaCGH							contains zlib, may need patch
 Rsymphony						build bombs, patch ?, Debian build
 SNPMaP		affxparser, SNPMaP.cdm (BioC)						
 SubpathwayMiner KEGG.db (BioC)
 gene2pathway    KEGG.db (BioC)
-TSpaid							build bombs, wild linking ?
+TSpadi							build bombs on i386 but not amd64, wild linking ?
 alphahull	removed ?
 ash					statlib ?
 bayesCGH	snapCGH (BioC ?)
@@ -69,11 +71,8 @@ fPortfolio	RSymphony (which will be in Debian)
 lsa		Rstem ?
 mpm		geneplotter (BioC ?)
 mvgraph		statDA ?
-rSymPy							small patch
-race							remove debian/ from source tarball ?				
 sabreR							contains binary, lintian override ?
-seqinr							contains zlib 
-sgeostat	license ? package gone ?
+sgeostat	license ? package `5gone ?
 sisus		annotate, Biobase (BioC ?)
 svSocket						small patch re tcl path
 
