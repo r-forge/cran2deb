@@ -35,6 +35,7 @@ race							remove debian/ from source tarball -- fixed in cran2deb
 RJaCGH							contains zlib, added patch to remove it
 seqinr							contains zlib, added patch to remove it
 rSymPy							small patch for python path
+svSocket						small patch re tcl path
 
 OPEN ISSUES
 ---------------------------------------------------------------------------------
@@ -46,7 +47,7 @@ GOSim		GO.db (BioC)
 Metabonomic	PROcess (BioC ?)
 PhViD 		LBE ????
 RLadyBug						added small patch, still fails ??
-Rsymphony						build bombs, patch ?, Debian build
+Rsymphony						build bombs, patch ?, Debian build exists
 SNPMaP		affxparser, SNPMaP.cdm (BioC)						
 SubpathwayMiner KEGG.db (BioC)
 gene2pathway    KEGG.db (BioC)
@@ -66,7 +67,6 @@ multtest	BioBase (BioC ?)
 GExMap		multtest (BioC)
 LMGene		multtest (BioC)
 crosshybDetector marray (disappread ?)
-dlmap		empty DESCRIPTION ?
 fPortfolio	RSymphony (which will be in Debian)
 lsa		Rstem ?
 mpm		geneplotter (BioC ?)
@@ -74,7 +74,7 @@ mvgraph		statDA ?
 sabreR							contains binary, lintian override ?
 sgeostat	license ? package `5gone ?
 sisus		annotate, Biobase (BioC ?)
-svSocket						small patch re tcl path
+dlmap							empty DESCRIPTION, added patch, still fails ?
 
 REJECTED
 ---------------------------------------------------------------------------------------------
