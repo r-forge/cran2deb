@@ -1,0 +1,238 @@
+
+%% add 'handout' option for handouts, and pgfpages for 2-on-1
+\documentclass[smaller,compress]{beamer}   
+%\usepackage{pgfpages}
+%\pgfpagesuselayout{2 on 1}[letterpaper,border shrink=5mm]
+%\pgfpagesuselayout{4 on 1}[letterpaper,border shrink=5mm]
+%\pgfpagesuselayout{2 on 1}[a4,border shrink=5mm]
+
+\include{setup}  %% has all definitions etc
+
+%\title[cran2deb: Automated CRAN to Debian packages generation]{cran2deb: A
+%  system to automatically provide 1700+ CRAN packages as Debian binaries} 
+\title[cran2deb: CRAN to Debian packages]{cran2deb: Automating CRAN to Debian packages generation} 
+
+%\subtitle{\textsl{Tutorial at R/Finance 2009}}
+\subject{UseR! 2009 Presentation}
+\author[Charles Blundell \and Dirk Eddelbuettel]{Charles Blundell\inst{1} \and Dirk Eddelbuettel\inst{2}}
+\institute[Gatsby \and Debian]{\inst{1}Gatsby Computational Neuroscience Unit
+  \\ University College London \and \inst{2}Debian / R Projects}
+\date[UseR! 2009]{Presentation at UseR! 2009 \\ Rennnes, France \\ July 2009}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{Overview}
+  \tableofcontents
+\end{frame}
+
+\section[Why]{Why: Background and Motivation}
+\begin{frame}
+  \frametitle{About R -- and its repos}
+  \framesubtitle{An open statistical language / environment -- with lots of
+    excellent code contributions}
+
+  A few key facts that are non-controversial at a \textsl{useR!} conference:
+  \begin{itemize} 
+  \item \R\ is now a standard for statistical applications and research
+  \item \textit{``Success has many fathers''}: several key drivers can
+    be identified as to why \R\ has done so well 
+  \item We would like to stress \textsl{repos} and available packages here:
+    CRAN, as well as BioConductor and Omegahat.
+  \item CRAN has been one of the drivers: an open yet rigourously QA'ed
+    repostory which has experienced tremendous growth
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{CRAN Packages} %% NB Or shall we merge this with the preceding slide?
+  \framesubtitle{Exponential Growth}
+
+  \begin{columns}
+    \begin{column}{3in}
+      \begin{figure}
+        \includegraphics[height=6cm,transparent]{figures/Packages}
+
+        \begin{scriptsize}
+          Source: Fox (2008, 2009), our calculations
+        \end{scriptsize}
+      \end{figure}
+    \end{column}
+    \begin{column}{2in}
+      \begin{itemize} 
+        \item CRAN archive network growing by 40\% p.a., now at around 1750 packages
+
+        \item John Fox provided this chart in an invited lecture at the last
+        \emph{useR!} meetings.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.25in}
+      \phantom{XX}
+    \end{column}
+  \end{columns}  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Debian and Ubuntu} % NB Maybe skip this slide?
+  \framesubtitle{Open Linux distributions}
+
+  A few key points:
+  \begin{itemize} 
+  \item Debian is \textsl{the} community-driven Linux distribution where
+    numerous volunteers provide over twenty-thousand packages for around
+    a dozen architectures.
+  \item Packages and package management ``just work'': with arguably the most
+    advanced and robust package management system, and a tremendous
+    build and test infrastructure.
+  \item Ubuntu has taken Debian, added a fair amount of spit and polish, as
+    well as regular bi-annual releases, and has rapidly gained mind- and
+    well as market-share as the Linux distribution to beat.
+  \item Lastly, we note that the CRAN backend is also implemented on Debian.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Why build Debian R packages?}
+  \framesubtitle{Combining R and Debian}
+  Bates, Eddelbuettel and Gebhard (UseR! 2004) listed a number of reason
+  that still hold:
+  \begin{itemize} 
+  \item \textbf{Dependencies} are resolved automatically: \textsl{it just
+      works}
+  \item \textbf{Convenience} of installing binary packages via
+    \texttt{apt-get} %is
+    %easier than building from source
+  \item \textbf{Quality control} as build daemons, automated rebuilds,
+    porting, ... all ensure that everything is pretty much buildable all the
+    time
+  \item \textbf{Scalability} as building one binary package and scripting
+    installation on a cluster beats doing lots of manual installations
+  \item \textbf{Common platform} as Debian forms the base for Ubuntu and
+    several other derivative or single-focus distributions
+  \item \textbf{Different architectures} ranging from small arm or mips based
+    systems to amd64, sparc64, hppa or even s390 mainframes
+  \item \textbf{Audience} given the reach of Debian and Ubuntu, large number
+    of users can be reached with little effort
+  \end{itemize}
+
+\end{frame}
+
+%\section{What is behind it?}
+\begin{frame}
+  \frametitle{So what is a Debian package?} % NB Maybe skip this?
+  \framesubtitle{And how do I build it?}
+
+  Building a Debian package is similar to using \texttt{R
+    CMD binary} etc:
+  \begin{itemize} 
+  \item Reads meta-information is read from the files in the debian/ directory
+    \begin{itemize} 
+    \item debian/control (similar to R's DESCRIPTION) lists names,
+      maintainers, build- and run-time dependencies
+    \item debian/copyright lists all author, license holders and copyright
+      statements 
+    \item debian/changelog provides current and past version numbers with a
+      list of  all changes in chronological fashion
+    \item debian/rules is a Makefile containing all steps to configure,
+      build, install, package-create and clean
+    \end{itemize}
+  \item Employs a number of external scripts and tools tie into this,
+  similar to what R has below \texttt{\$RHOME/share}
+  \end{itemize}
+\end{frame}
+
+
+\section[How]{How: Key aspects of the approach and implementation}
+\begin{frame}
+  \frametitle{Comparing two approaches}
+  \framesubtitle{What have we learned?}
+
+  Eddelbuettel, Vernazobres, Gebhard and M\"{o}ller (UseR 2007) presented a first
+  approach.
+
+  \MedSkip
+
+  \begin{columns}
+    \begin{column}{2in}
+      \textsl{Then}
+      \begin{itemize}
+      \item Top-down approach 
+      \item Monolithic and large Perl program 
+      \item Re-implementing chunks of what \R does in parsing archives
+      \item Not very robust
+      \end{itemize}
+    \end{column}      
+
+    \begin{column}{2in}
+      \textsl{Now}
+      \begin{itemize}
+      \item Bottom-up approach
+      \item Collection of \R and shell scripts, also lots of SQL
+      \item Re-using \R internal infrastructure as much as possible
+      \item Influenced by %Eddelbuettel's
+        \href{http://dirk.eddelbuettel.com/cranberries/}{CRANberries} and its
+        200 lines of \R code to monitor and summarize CRAN changes
+      \end{itemize}
+    \end{column}      
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Technology Overview}
+  \framesubtitle{Charles: Can you fill something in here, if I haven't stolen
+    all nuggets on the previous slide?}
+
+\end{frame}
+
+\section[Status]{Status: Where are we now?}
+\begin{frame}
+  \frametitle{Current Status}
+  \framesubtitle{Ready for wider deployment and testing}
+
+  \begin{itemize}
+  \item Ground-work provided during Google Summer of Code 2008 under the
+    umbrella of the \R Foundation
+  \item Currently using a (small) Xen-instance on a server at WU Wien to host
+    two Debian pbuilder chroots and an archive
+  \item 1700+ packages for i386 and amd64 on Debian testing
+  \item In daily use for the last few weeks!
+  \end{itemize}
+
+  \MedSkip
+  Just add the following URL (with -amd64 for 64-bit) \newline 
+  { \SmallSkip \scriptsize
+    \texttt{deb http://xmcorsairs.wu.ac.at/cran2deb/debian-i386 testing/}
+  }
+
+\end{frame}
+
+\section{Open Issues}
+\begin{frame}
+  \frametitle{Question to be addressed}
+  \framesubtitle{These may not be showstoppers}
+
+  \begin{itemize}
+  \item What can or cannot be (re-)distributed by CRAN and its mirrors?
+  \item What can or cannot be used by all users?
+  \item Remaining external dependencies: 
+    \begin{itemize}
+      \item BioConductor is the single largest source: BioBase, RGraphviz, etc
+      \item Other external libraries or tools not in Debian 
+      \item Commercial external dependencies: SGE, LSF, Oracle, Vhayu
+    \end{itemize}
+  \item Builds for other architectures ?
+  \item Builds for other Debian flavours such as Ubuntu ?
+  \end{itemize}
+\end{frame}
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
