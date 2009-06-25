@@ -25,19 +25,25 @@ seewave		flac				    	added alias_run,sysreq
 snpXpert	tcltk2					now builds 
 tlnise					tlnise license added
 tsModel		tlnise					now builds					
-SuppDists						build bombs, DESCRIPTION needs space, patch added
 qAnalyst	SuppDists
 survcomp	SuppDists
 BayesTree						added one-line C++ patch 
 HAPim							added one-char DESCRIPTION patch
 MatchIt							added one-line patch
-race							remove debian/ from source tarball -- fixed in cran2deb				
+race							remove debian/ from source tarball -- fixed in cran2deb	
 RJaCGH							contains zlib, added patch to remove it
 seqinr							contains zlib, added patch to remove it
 rSymPy							small patch for python path
 svSocket						small patch re tcl path
+rgrs							xclip sysreq/force added
+RLadyBug						added patch, now works
+dlmap							now works
+TSpadi							now works
+ash					statlib ?
+alphahull						now works
+sgeostat						now works
 
-OPEN ISSUES
+BLACKLISTED 
 ---------------------------------------------------------------------------------
 ADaCGH		tilingArray (BioC)
 DAAGbio		limma (BioC ?)
@@ -45,17 +51,12 @@ metaMA		limma (BioC ?)
 GFMaps		affy (BioC)
 GOSim		GO.db (BioC)
 Metabonomic	PROcess (BioC ?)
-PhViD 		LBE ????
-RLadyBug						added small patch, still fails ??
-Rsymphony						build bombs, patch ?, Debian build exists
+PhViD 		LBE (BioC)
 SNPMaP		affxparser, SNPMaP.cdm (BioC)						
 SubpathwayMiner KEGG.db (BioC)
 gene2pathway    KEGG.db (BioC)
-TSpadi							build bombs on i386 but not amd64, wild linking ?
-alphahull	removed ?
-ash					statlib ?
 bayesCGH	snapCGH (BioC ?)
-classGraoh	Rgraphviz (BioC ?)			
+classGraph	Rgraphviz (BioC ?)			
 gcExplorer	Rgraphviz (BioC ?)											
 logilasso	Rgraphviz (BioC ?)
 pcalg		Rgraphviz (BioC ?)
@@ -63,18 +64,13 @@ qdg		pcalg -> Rgraphviz
 celsius		BioBase (BioC ?)
 multtest	BioBase (BioC ?)
 hopach		BioBase (BioC ?)
-multtest	BioBase (BioC ?)
 GExMap		multtest (BioC)
 LMGene		multtest (BioC)
+PCS		multtest (BioC)
 crosshybDetector marray (disappread ?)
-fPortfolio	RSymphony (which will be in Debian)
-lsa		Rstem ?
+lsa		Rstem 
 mpm		geneplotter (BioC ?)
-mvgraph		statDA ?
-sabreR							contains binary, lintian override ?
-sgeostat	license ? package `5gone ?
 sisus		annotate, Biobase (BioC ?)
-dlmap							empty DESCRIPTION, added patch, still fails ?
 
 REJECTED
 ---------------------------------------------------------------------------------------------
@@ -117,6 +113,7 @@ rankreg					non-profit
 rngwell19937				non-commercial
 spatialkernel				gpc library in non-commercial
 
+
 CANNOT BUILD
 ----------------------------------------------------------------------------------------------
 CarbonEL						Mac OS X only
@@ -128,10 +125,18 @@ Rsge							SGE required
 VhayuR							Vhauy required
 gputools						nvcc (>= 2.1)						
 klar							svmlight (non-commercial)
-rgrs							xclip
 rimage							C++ needs g++ 4.* update
+sabreR							contains binary, lintian override ?
 svGUI							komodo
 wgaim							asreml-r
 xgobi							Xgobi
 
 TODO:
+---------------------------------------------------------------------------------
+aroma.apd						requires aroma.light from BioC
+aroma.core						requires aroma.light from BioC
+IDPmisc							broken R file (!!)
+Rsymphony						build bombs, patch ?, Debian build exists
+SuppDists						build bombs, DESCRIPTION needs space, patch added
+cmprskContin						fortan95 compiler wants memory model
+mvgraph		statDA ?				need pkg-config ?
