@@ -36,7 +36,7 @@ IL, USA}
 
 \section[Why]{Why: Background and Motivation}
 \begin{frame}
-  \frametitle{About R -- and its repos}
+  \frametitle{About R -- and its repositories}
   \framesubtitle{An open statistical language / environment -- with lots of
     excellent code contributions}
 
@@ -45,10 +45,10 @@ IL, USA}
   \item \R\ is now a standard for statistical applications and research
   \item \textit{``Success has many fathers''}: several key drivers can
     be identified as to why \R\ has done so well 
-  \item We would like to stress \textsl{repos} and available packages here:
+  \item We would like to stress \textsl{repositories} and available packages here:
     CRAN, as well as BioConductor and Omegahat.
-  \item CRAN has been one of the drivers: an open yet rigourously QA'ed
-    repostory which has experienced tremendous growth
+  \item CRAN has been one of the drivers: an open yet rigorously QA'ed
+    repository which has experienced tremendous growth
   \end{itemize}
 \end{frame}
 
@@ -117,7 +117,7 @@ IL, USA}
     installation on a cluster beats doing lots of manual installations
   \item \textbf{Common platform} as Debian forms the base for Ubuntu and
     several other derivative or single-focus distributions
-  \item \textbf{Different architectures} ranging from small arm or mips based
+  \item \textbf{Different architectures} ranging from small arm or MIPS based
     systems to amd64, sparc64, hppa or even s390 mainframes
   \item \textbf{Audience} given the reach of Debian and Ubuntu, large number
     of users can be reached with little effort
@@ -126,28 +126,28 @@ IL, USA}
 \end{frame}
 
 %\section{What is behind it?}
-\begin{frame}
-  \frametitle{So what is a Debian package?} % NB Maybe skip this?
-  \framesubtitle{And how do I build it?}
-
-  Building a Debian package is similar to using \texttt{R
-    CMD binary} etc:
-  \begin{itemize} 
-  \item Reads meta-information is read from the files in the debian/ directory
-    \begin{itemize} 
-    \item debian/control (similar to R's DESCRIPTION) lists names,
-      maintainers, build- and run-time dependencies
-    \item debian/copyright lists all author, license holders and copyright
-      statements 
-    \item debian/changelog provides current and past version numbers with a
-      list of  all changes in chronological fashion
-    \item debian/rules is a Makefile containing all steps to configure,
-      build, install, package-create and clean
-    \end{itemize}
-  \item Employs a number of external tools scripts and tools, can be used
-    interactively or in batch mode in chroot'ed 'clean rooms'
-  \end{itemize}
-\end{frame}
+%\begin{frame}
+%  \frametitle{So what is a Debian package?} % NB Maybe skip this?
+%  \framesubtitle{And how do I build it?}
+%
+%  Building a Debian package is similar to using \texttt{R
+%    CMD binary} etc:
+%  \begin{itemize} 
+%  \item Reads meta-information is read from the files in the debian/ directory
+%    \begin{itemize} 
+%    \item debian/control (similar to R's DESCRIPTION) lists names,
+%      maintainers, build- and run-time dependencies
+%    \item debian/copyright lists all author, license holders and copyright
+%      statements 
+%    \item debian/changelog provides current and past version numbers with a
+%      list of  all changes in chronological fashion
+%    \item debian/rules is a Makefile containing all steps to configure,
+%      build, install, package-create and clean
+%    \end{itemize}
+%  \item Employs a number of external tools scripts and tools, can be used
+%    interactively or in batch mode in chroot'ed 'clean rooms'
+%  \end{itemize}
+%\end{frame}
 
 
 \section[How]{How: Key aspects of the approach and implementation}
@@ -190,9 +190,6 @@ IL, USA}
   \frametitle{Technology Overview: Big Picture}
   \framesubtitle{Key components}
 
-%  \textsc{Charles: Can you fill something in here, if I haven't stolen
-%    all nuggets on the previous slide?}
-
   cran2deb is implemented as a collection of small tools:
   \begin{itemize}
   \item cran2deb is just a wrapper script calling out to twenty-one other
@@ -208,9 +205,32 @@ IL, USA}
   \item cran2deb is also an R package that is being called by some of the R
     scripts; the R package has just over 1500 lines of code, and it calls out
     to R functionality from package utils and tools.
-  \item SQL it used fairly extensively via nine tables containing everything
-    from meta-information, blacklist to build logs.
   \end{itemize}
+\end{frame}  
+
+\begin{frame}
+  \frametitle{Technology Overview} 
+  \framesubtitle{A walk through}
+
+  cran2deb:
+  \begin{itemize}
+  \item pulls meta-data updates from CRAN daily via R's available.packages
+  \item detects new or changed packages and gets building each one:
+    \begin{itemize}
+      \item Map declared R dependencies onto cran2deb packages
+      \item Map free-form SystemRequirements onto Debian packages
+        \begin{itemize}
+          \item Rules for this shared among packages---many packages ``just work''.
+        \end{itemize}
+      \item Add any undeclared dependencies that we found were needed (applies to just 36 packages).
+      \item Build each package in its own isolated, clean, fresh, up to date Debian environment via pbuilder.
+        \begin{itemize}
+          \item Looks like a fresh install of Debian; ensures correctness of dependencies.
+          \item Check package quality via Debian's lintian.
+        \end{itemize}
+    \end{itemize}
+  \end{itemize}
+  RSQLite backend for cran2deb state: everything from package meta-information, blacklist of bad packages, to build logs.
 \end{frame}  
 
 \begin{frame}
@@ -220,11 +240,13 @@ IL, USA}
   Re-use, re-duce, re-cycle:
 
   \begin{itemize}
+  \item \R's infrastructure is used for obtaining the \R view of the world:
+    what packages and where, first approximation to dependencies.
   \item All this makes use of Debian build infrastructure, notably the
     pbuilder chroot environment and the package management system
   \item cran2deb sets the build environment up by invoking the proper Debian
     scripts 
-  \item the 'production' use if fully automated via cron and report status
+  \item the `production line' of packages is fully automated via cron and report status
     summaries by email
   \item per-package patches are allowed (currently eleven packages have
     mostly trivial patches)
@@ -243,8 +265,9 @@ IL, USA}
   Debian package (complete with full dependencies) --- apart from:
 
   \begin{itemize}
-  \item 17 packages that are \textsl{not free enough}:\footnote{We should
-      provide a longer discussion of the various licenses.}  
+  \item 17 packages that are \textsl{not free enough}:\footnote{Generally these
+do not allow commercial use, modification and/or distribution with the
+exception of ConvCalendar which gives no modification or distribution rights.}
     mclust, mclust02, ConvCalendar, SDDA, conf.design, isa2, optmatch,
     rankreg, realized, rngwell19937, tnet, spatialkernel, Bhat, PTAk,
     PredictiveRegression, RLadyBug, mapproj 
@@ -287,7 +310,7 @@ IL, USA}
 
   \begin{itemize}
   \item The ground-work was provided during Google Summer of Code (GSoC) 2008 under the
-    umbrella of the \R Foundation. We thank Google for the GSoC support.
+    umbrella of the Debian project. We thank Google for the GSoC support.
   \item Currently we are using a (small) Xen-instance on a server at WU Wien to host
     two Debian pbuilder chroots and an archive. We thank WU Wien/CRAN for
     hosting and cpu cycles.
@@ -321,8 +344,8 @@ IL, USA}
       \item Other external libraries or tools not in Debian 
       \item Commercial external dependencies: SGE, LSF, Oracle, Vhayu
     \end{itemize}
-  \item Builds for other architectures ?
-  \item Builds for other Debian flavours such as Ubuntu ?
+  \item Builds for other architectures?
+  \item Builds for other Debian flavours such as Ubuntu?
   \end{itemize}
 \end{frame}
 
