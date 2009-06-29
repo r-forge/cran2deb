@@ -10,14 +10,17 @@
 
 %\title[cran2deb: Automated CRAN to Debian packages generation]{cran2deb: A
 %  system to automatically provide 1700+ CRAN packages as Debian binaries} 
-\title[cran2deb: CRAN to Debian packages]{cran2deb: Automating CRAN to Debian packages generation} 
-
-%\subtitle{\textsl{Tutorial at R/Finance 2009}}
+\title[cran2deb: CRAN to Debian packages]{cran2deb:  A fully automated CRAN to \\
+  Debian package generation system} 
+\subtitle{\textsl{UseR! 2009 Presentation}}
 \subject{UseR! 2009 Presentation}
 \author[Charles Blundell \and Dirk Eddelbuettel]{Charles Blundell\inst{1} \and Dirk Eddelbuettel\inst{2}}
 \institute[Gatsby \and Debian]{\inst{1}Gatsby Computational Neuroscience Unit
-  \\ University College London \and \inst{2}Debian / R Projects}
-\date[UseR! 2009]{Presentation at UseR! 2009 \\ Rennnes, France \\ July 2009}
+  \\ University College London, UK \and \inst{2}Debian and R Projects \\ Chicago,
+IL, USA}
+%\date[UseR! 2009]{Presentation at UseR! 2009 \\ Rennnes, France \\ July 2009}
+\date[UseR! 2009 Presentation]{Universit\'{e} Rennes II, Agrocampus Ouest \\ Laboratoire de
+  Math\'{e}matiques Appliqu\'{e}es \\ 8-10 July 2009}
 
 
 \begin{document}
@@ -92,7 +95,7 @@
   \item Ubuntu has taken Debian, added a fair amount of spit and polish, as
     well as regular bi-annual releases, and has rapidly gained mind- and
     well as market-share as the Linux distribution to beat.
-  \item Lastly, we note that the CRAN backend is also implemented on Debian.
+  \item We also note that the CRAN backend is implemented on Debian.
   \end{itemize}
 \end{frame}
 
@@ -141,8 +144,8 @@
     \item debian/rules is a Makefile containing all steps to configure,
       build, install, package-create and clean
     \end{itemize}
-  \item Employs a number of external scripts and tools tie into this,
-  similar to what R has below \texttt{\$RHOME/share}
+  \item Employs a number of external tools scripts and tools, can be used
+    interactively or in batch mode in chroot'ed 'clean rooms'
   \end{itemize}
 \end{frame}
 
@@ -163,6 +166,7 @@
       \begin{itemize}
       \item Top-down approach 
       \item Monolithic and large Perl program 
+      \item Meta-information encode directly as Perl hashes in program
       \item Re-implementing chunks of what \R does in parsing archives
       \item Not very robust
       \end{itemize}
@@ -183,30 +187,121 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Technology Overview}
-  \framesubtitle{Charles: Can you fill something in here, if I haven't stolen
-    all nuggets on the previous slide?}
+  \frametitle{Technology Overview: Big Picture}
+  \framesubtitle{Key components}
+
+%  \textsc{Charles: Can you fill something in here, if I haven't stolen
+%    all nuggets on the previous slide?}
+
+  cran2deb is implemented as a collection of small tools:
+  \begin{itemize}
+  \item cran2deb is just a wrapper script calling out to twenty-one other
+    'worker' scripts implementing the twenty-one basic high-level commands
+    \begin{itemize}
+    \item 'worker' scripts are written in \R (for littler), Korn/Bash shell,
+      and in the Plan9 shell rc
+      \item all these scripts are small: the largest is 4 kb and only seven
+        are larger than 1 kb
+      \item this is recursive: 'help' is one of these scripts scanning for
+        doc-strings in the other scripts
+    \end{itemize}
+  \item cran2deb is also an R package that is being called by some of the R
+    scripts; the R package has just over 1500 lines of code, and it calls out
+    to R functionality from package utils and tools.
+  \item SQL it used fairly extensively via nine tables containing everything
+    from meta-information, blacklist to build logs.
+  \end{itemize}
+\end{frame}  
+
+\begin{frame}
+  \frametitle{Technology Overview} 
+  \framesubtitle{Continued}
+
+  Re-use, re-duce, re-cycle:
+
+  \begin{itemize}
+  \item All this makes use of Debian build infrastructure, notably the
+    pbuilder chroot environment and the package management system
+  \item cran2deb sets the build environment up by invoking the proper Debian
+    scripts 
+  \item the 'production' use if fully automated via cron and report status
+    summaries by email
+  \item per-package patches are allowed (currently eleven packages have
+    mostly trivial patches)
+  \item source code is available via the r-forge subversion repository and archive
+  \end{itemize}
 
 \end{frame}
 
 \section[Status]{Status: Where are we now?}
+
 \begin{frame}
-  \frametitle{Current Status}
-  \framesubtitle{Ready for wider deployment and testing}
+  \frametitle{Building 1700+ package}
+  \framesubtitle{Summary from a package views}
+
+  It's easy: basically \textsl{everything} builds and is available as a
+  Debian package (complete with full dependencies) --- apart from:
 
   \begin{itemize}
-  \item Ground-work provided during Google Summer of Code 2008 under the
-    umbrella of the \R Foundation
-  \item Currently using a (small) Xen-instance on a server at WU Wien to host
-    two Debian pbuilder chroots and an archive
+  \item 17 packages that are \textsl{not free enough}:\footnote{We should
+      provide a longer discussion of the various licenses.}  
+    mclust, mclust02, ConvCalendar, SDDA, conf.design, isa2, optmatch,
+    rankreg, realized, rngwell19937, tnet, spatialkernel, Bhat, PTAk,
+    PredictiveRegression, RLadyBug, mapproj 
+  \item 1 package that is obsolete: xgobi
+  \item 2 package that break building packages via cran2deb:\footnote{It
+      takes down the cronjob; we are stumped as to why.} dprep, EngrExpt
+  \item 1 package that is not built for 'other' reasons:\footnote{It contains
+      binary code.} sabreR
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Building 1700+ package}
+  \framesubtitle{Continued}
+
+  \begin{itemize}
+  \item 47 packages that have \textsl{unsatisfied
+      dependencies}:\footnote{Some require other commercial software, some
+      require software we classified\newline as non-free, some require BioConductor packages.}
+    ROracle, Rlsf, Rsge, CarbonEL, VhayuR, gputools, klaR, wgaim, svGUI,
+    RScaLAPACK, caMassClass, Rcplex, ADaCGH, DAAGbio, GFMaps, GOSim,
+    Metabonomic, classGraph, gcExplorer, logilasso, pcalg, celsius, multtest,
+    hopach, GExMap, LMGene, PCS, SubpathwayMiner, gene2pathway, PhViD,
+    SNPMaP, qdg, lsa, mpm, sisus, metaMA, clustTool, clustvarsel,
+    SpectralGEM, bayesCGH, crosshybDetector  
+  \item 7 package that (as of end of June) fails for unclassified reasons:
+    IDPmisc, Rsymphony, SuppDists, aroma.apd, aroma.core, cmprskContin, mvgraph
+  \end{itemize}
+
+  \MedSkip
+  \textsl{But everything else}---currently 1768 packages---builds and is
+  available via \texttt{apt-get} and other package management frontends!
+\end{frame}  
+
+\begin{frame}
+  \frametitle{Status and credits}
+  \framesubtitle{Ready for wider deployment and testing}
+
+  Who do we owe, and where is it at: 
+
+  \begin{itemize}
+  \item The ground-work was provided during Google Summer of Code (GSoC) 2008 under the
+    umbrella of the \R Foundation. We thank Google for the GSoC support.
+  \item Currently we are using a (small) Xen-instance on a server at WU Wien to host
+    two Debian pbuilder chroots and an archive. We thank WU Wien/CRAN for
+    hosting and cpu cycles.
   \item 1700+ packages for i386 and amd64 on Debian testing
   \item In daily use for the last few weeks!
   \end{itemize}
 
   \MedSkip
-  Just add the following URL (with -amd64 for 64-bit) \newline 
-  { \SmallSkip \scriptsize
+  So just add one of these URLs:\newline
+  i386 \phantom{xx} : { \SmallSkip \scriptsize
     \texttt{deb http://xmcorsairs.wu.ac.at/cran2deb/debian-i386 testing/}
+  } \newline
+  amd64 : { \SmallSkip \scriptsize
+    \texttt{deb http://xmcorsairs.wu.ac.at/cran2deb/debian-amd64 testing/}
   }
 
 \end{frame}
@@ -216,6 +311,7 @@
   \frametitle{Question to be addressed}
   \framesubtitle{These may not be showstoppers}
 
+  Things that still need to be sorted out:
   \begin{itemize}
   \item What can or cannot be (re-)distributed by CRAN and its mirrors?
   \item What can or cannot be used by all users?
