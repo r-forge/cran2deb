@@ -242,18 +242,20 @@ IL, USA}
     meta-information, blacklist of bad packages, to build logs. 
   \item checks for a free license of a package before its built:
     \begin{itemize}
-        \item initially we used handcrafted regular expressions to match
-                licenses but people write (for example) GPL in too many ways!
+        \item initially: handcrafted regular expressions to match
+                licenses.
+        \item some packages ignore ``Writing R extensions'' guidelines concerning the License: field: how many ways to write GPL?
             \begin{itemize}
+                \item initialised vs. its expansion (GPL vs. GNU general public license)
                 \item license vs. licence
                 \item see \texttt{http://www.gnu.org/GPL}
-                \item initialised vs. its expansion (GPL vs. GNU general public license)
                 \item (v, version) (2.0, 2) or (higher, later, newer, greater, above)
                 \item typos of the above
-                \item file LICENSE, reformatted in arbitrary ways
+                \item file LICENSE: contents reformatted in arbitrary ways
             \end{itemize}
-        \item now we strip white space and perform other harmless transforms
-              and match SHA1 checksums to determine license.
+        \item now: strip white space and perform other harmless transforms
+                and match SHA1 checksums to determine license;  likewise for contents of LICENSE
+                file.
     \end{itemize}
   \end{itemize}
 \end{frame}  
