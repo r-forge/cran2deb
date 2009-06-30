@@ -44,7 +44,7 @@ IL, USA}
   \begin{itemize} 
   \item \R\ is now a standard for statistical applications and research
   \item \textit{``Success has many fathers''}: several key drivers can
-    be identified as to why \R\ has done so well 
+    be identified as to why \R has done so well 
   \item We would like to stress \textsl{repositories} and available packages here:
     CRAN, as well as BioConductor and Omegahat.
   \item CRAN has been one of the drivers: an open yet rigorously QA'ed
@@ -155,8 +155,8 @@ IL, USA}
   \frametitle{Comparing two approaches}
   \framesubtitle{What have we learned?}
 
-  Eddelbuettel, Vernazobres, Gebhard and M\"{o}ller (UseR 2007) presented a first
-  approach.
+  Eddelbuettel, Vernazobres, Gebhard and M\"{o}ller (UseR 2007) implemented a
+  system which provides a basis for comparison:
 
   \MedSkip
 
@@ -190,17 +190,17 @@ IL, USA}
   \frametitle{Technology Overview: Big Picture}
   \framesubtitle{Key components}
 
-  cran2deb is implemented as a collection of small tools:
+  Our cran2deb system is implemented as a collection of small tools:
   \begin{itemize}
-  \item cran2deb is just a wrapper script calling out to twenty-one other
+  \item cran2deb itself is a wrapper script calling out to twenty-one other
     'worker' scripts implementing the twenty-one basic high-level commands
     \begin{itemize}
     \item 'worker' scripts are written in \R (for littler), Korn/Bash shell,
       and in the Plan9 shell rc
-      \item all these scripts are small: the largest is 4 kb and only seven
-        are larger than 1 kb
-      \item this is recursive: 'help' is one of these scripts scanning for
-        doc-strings in the other scripts
+    \item these scripts are small: the largest is 4 kb and only seven
+      are larger than 1 kb
+    \item this is recursive: 'help' is one of these scripts scanning for
+      doc-strings in the other scripts
     \end{itemize}
   \item cran2deb is also an R package that is being called by some of the R
     scripts; the R package has just over 1500 lines of code, and it calls out
@@ -212,25 +212,26 @@ IL, USA}
   \frametitle{Technology Overview} 
   \framesubtitle{A walk through}
 
-  cran2deb:
+  What does cran2deb do:
   \begin{itemize}
-  \item pulls meta-data updates from CRAN daily via R's available.packages
-  \item detects new or changed packages and gets building each one:
+  \item pulls new meta-data from CRAN via \texttt{available.packages()}
+  \item detects new (or changed) packages and builds each one via:
     \begin{itemize}
-      \item Map declared R dependencies onto cran2deb packages
-      \item Map free-form SystemRequirements onto Debian packages
-        \begin{itemize}
-          \item Rules for this shared among packages---many packages ``just work''.
-        \end{itemize}
-      \item Add any undeclared dependencies that we found were needed (applies to just 36 packages).
-      \item Build each package in its own isolated, clean, fresh, up to date Debian environment via pbuilder.
-        \begin{itemize}
-          \item Looks like a fresh install of Debian; ensures correctness of dependencies.
-          \item Check package quality via Debian's lintian.
-        \end{itemize}
+    \item map declared \R dependencies onto cran2deb packages
+    \item map free-form SystemRequirements onto Debian packages
+      \begin{itemize}
+      \item Rules for this shared among packages---many packages ``just work''.
+      \end{itemize}
+    \item add any undeclared dependencies (this applies to just 36 packages
+      and often entail only loading, say, MASS).
+    \item build each package in its own isolated, clean, fresh, up to date
+      build environment via pbuilder: this looks like a fresh install of
+      Debian and ensures correctness of dependencies. 
     \end{itemize}
+  \item checks package quality via Debian's lintian.
+  \item uses RSQLite backend for cran2deb state: everything from package
+    meta-information, blacklist of bad packages, to build logs. 
   \end{itemize}
-  RSQLite backend for cran2deb state: everything from package meta-information, blacklist of bad packages, to build logs.
 \end{frame}  
 
 \begin{frame}
@@ -242,7 +243,7 @@ IL, USA}
   \begin{itemize}
   \item \R's infrastructure is used for obtaining the \R view of the world:
     what packages and where, first approximation to dependencies.
-  \item All this makes use of Debian build infrastructure, notably the
+  \item All this uses the Debian build infrastructure, notably the
     pbuilder chroot environment and the package management system
   \item cran2deb sets the build environment up by invoking the proper Debian
     scripts 
@@ -272,8 +273,8 @@ exception of ConvCalendar which gives no modification or distribution rights.}
     rankreg, realized, rngwell19937, tnet, spatialkernel, Bhat, PTAk,
     PredictiveRegression, RLadyBug, mapproj 
   \item 1 package that is obsolete: xgobi
-  \item 2 package that break building packages via cran2deb:\footnote{It
-      takes down the cronjob; we are stumped as to why.} dprep, EngrExpt
+  \item 2 package that break building packages via cran2deb:\footnote{They
+      take down the cronjob; we are stumped as to why.} dprep, EngrExpt
   \item 1 package that is not built for 'other' reasons:\footnote{It contains
       binary code.} sabreR
   \end{itemize}
@@ -293,12 +294,12 @@ exception of ConvCalendar which gives no modification or distribution rights.}
     hopach, GExMap, LMGene, PCS, SubpathwayMiner, gene2pathway, PhViD,
     SNPMaP, qdg, lsa, mpm, sisus, metaMA, clustTool, clustvarsel,
     SpectralGEM, bayesCGH, crosshybDetector  
-  \item 7 package that (as of end of June) fails for unclassified reasons:
-    IDPmisc, Rsymphony, SuppDists, aroma.apd, aroma.core, cmprskContin, mvgraph
+  \item 8 package that (as of end of June) fail for unclassified reasons:
+    IDPmisc, Rsymphony, SuppDists, aroma.apd, aroma.core, aroma.affymetrix, cmprskContin, mvgraph
   \end{itemize}
 
   \MedSkip
-  \textsl{But everything else}---currently 1768 packages---builds and is
+  \textsl{But everything else}---currently 1770 packages---builds and is
   available via \texttt{apt-get} and other package management frontends!
 \end{frame}  
 
@@ -337,7 +338,7 @@ exception of ConvCalendar which gives no modification or distribution rights.}
   Things that still need to be sorted out:
   \begin{itemize}
   \item What can or cannot be (re-)distributed by CRAN and its mirrors?
-  \item What can or cannot be used by all users?
+  \item What can or cannot be used (and/or modified) by all users?
   \item Remaining external dependencies: 
     \begin{itemize}
       \item BioConductor is the single largest source: BioBase, RGraphviz, etc
