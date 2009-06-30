@@ -228,9 +228,33 @@ IL, USA}
       build environment via pbuilder: this looks like a fresh install of
       Debian and ensures correctness of dependencies. 
     \end{itemize}
+  \end{itemize}
+\end{frame}  
+
+\begin{frame}
+  \frametitle{Technology Overview} 
+  \framesubtitle{A walk through: some details}
+
+  What does cran2deb do:
+  \begin{itemize}
   \item checks package quality via Debian's lintian.
   \item uses RSQLite backend for cran2deb state: everything from package
     meta-information, blacklist of bad packages, to build logs. 
+  \item checks for a free license of a package before its built:
+    \begin{itemize}
+        \item initially we used handcrafted regular expressions to match
+                licenses but people write (for example) GPL in too many ways!
+            \begin{itemize}
+                \item license vs. licence
+                \item see \texttt{http://www.gnu.org/GPL}
+                \item initialised vs. its expansion (GPL vs. GNU general public license)
+                \item (v, version) (2.0, 2) or (higher, later, newer, greater, above)
+                \item typos of the above
+                \item file LICENSE, reformatted in arbitrary ways
+            \end{itemize}
+        \item now we strip white space and perform other harmless transforms
+              and match SHA1 checksums to determine license.
+    \end{itemize}
   \end{itemize}
 \end{frame}  
 
@@ -241,7 +265,7 @@ IL, USA}
   Re-use, re-duce, re-cycle:
 
   \begin{itemize}
-  \item \R's infrastructure is used for obtaining the \R view of the world:
+  \item \R's infrastructure is used to obtain the \R view of the world:
     what packages and where, first approximation to dependencies.
   \item All this uses the Debian build infrastructure, notably the
     pbuilder chroot environment and the package management system
