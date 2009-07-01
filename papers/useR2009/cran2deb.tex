@@ -192,8 +192,8 @@ IL, USA}
 
   Our cran2deb system is implemented as a collection of small tools:
   \begin{itemize}
-  \item cran2deb itself is a wrapper script calling out to twenty-one other
-    'worker' scripts implementing the twenty-one basic high-level commands
+  \item cran2deb itself is a wrapper script calling out to about twenty other
+    'worker' scripts implementing the principal commands
     \begin{itemize}
     \item 'worker' scripts are written in \R (for littler), Korn/Bash shell,
       and in the Plan9 shell rc
@@ -210,7 +210,7 @@ IL, USA}
 
 \begin{frame}
   \frametitle{Technology Overview} 
-  \framesubtitle{A walk through}
+  \framesubtitle{A walk through: some details}
 
   What does cran2deb do:
   \begin{itemize}
@@ -223,28 +223,29 @@ IL, USA}
       \item Rules for this shared among packages---many packages ``just work''.
       \end{itemize}
     \item add any undeclared dependencies (this applies to just 36 packages
-      and often entail only loading, say, MASS).
+      and often entails only loading, say, MASS).
     \item build each package in its own isolated, clean, fresh, up to date
       build environment via pbuilder: this looks like a fresh install of
       Debian and ensures correctness of dependencies. 
     \end{itemize}
+  \item checks package quality via Debian's lintian.
   \end{itemize}
 \end{frame}  
 
 \begin{frame}
   \frametitle{Technology Overview} 
-  \framesubtitle{A walk through: some details}
+  \framesubtitle{A walk through: some more details}
 
-  What does cran2deb do:
+  What does cran2deb do (cont.):
   \begin{itemize}
-  \item checks package quality via Debian's lintian.
   \item uses RSQLite backend for cran2deb state: everything from package
     meta-information, blacklist of bad packages, to build logs. 
   \item checks for a free license of a package before its built:
     \begin{itemize}
         \item initially: handcrafted regular expressions to match
                 licenses.
-        \item some packages ignore ``Writing R extensions'' guidelines concerning the License: field: how many ways to write GPL?
+        \item some packages ignore ``Writing R extensions'' guidelines
+          concerning the License: field: how many ways to write GPL? 
             \begin{itemize}
                 \item initialised vs. its expansion (GPL vs. GNU general public license)
                 \item license vs. licence
@@ -356,7 +357,7 @@ exception of ConvCalendar which gives no modification or distribution rights.}
 
 \end{frame}
 
-\section{Open Issues}
+\section[Next]{Next: Open Issues}
 \begin{frame}
   \frametitle{Question to be addressed}
   \framesubtitle{These may not be showstoppers}
