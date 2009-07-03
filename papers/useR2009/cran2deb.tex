@@ -348,33 +348,38 @@ exception of ConvCalendar which gives no modification or distribution rights.}
 
   \MedSkip
   So just add one of these URLs:\newline
-  i386 \phantom{xx} : { \SmallSkip \scriptsize
-    \texttt{deb http://xmcorsairs.wu.ac.at/cran2deb/debian-i386 testing/}
-  } \newline
-  amd64 : { \SmallSkip \scriptsize
-    \texttt{deb http://xmcorsairs.wu.ac.at/cran2deb/debian-amd64 testing/}
-  }
+  { \scriptsize
 
+    \texttt{deb http://debian.cran.r-project.org/cran2deb/debian-i386 testing/}
+
+    \texttt{deb http://debian.cran.r-project.org/cran2deb/debian-amd64 testing/}
+  }
 \end{frame}
 
 \section[Next]{Next: Open Issues}
 \begin{frame}
   \frametitle{Question to be addressed}
-  \framesubtitle{These may not be showstoppers}
+  \framesubtitle{For cran2deb to migrate out of beta testing}
 
-  Things that still need to be sorted out:
+  %Things that may need to be sorted out:
   \begin{itemize}
-  \item What can or cannot be (re-)distributed by CRAN and its mirrors?
-  \item What can or cannot be used (and/or modified) by all users?
-  \item Remaining external dependencies: 
+  \item \textbf{Licenses:}
     \begin{itemize}
-      \item BioConductor is the single largest source: BioBase, RGraphviz, etc
-      \item Other external libraries or tools not in Debian 
-      \item Commercial external dependencies: SGE, LSF, Oracle, Vhayu
+    \item  What can or cannot be (re-)distributed by CRAN and its mirrors?
+    \item What can or cannot be used (and/or modified) by all users?
     \end{itemize}
-  \item Builds for other architectures?
-  \item Builds for other Debian flavours such as Ubuntu?
-  \item Builds of other repositories: BioConductor? R-Forge?
+  \item \textbf{Externtal dependencies} % Remaining external dependencies: 
+    \begin{itemize}
+    \item BioConductor is the single largest source: BioBase, RGraphviz, etc
+    \item Other external libraries or tools not in Debian 
+    \item Commercial external dependencies: SGE, LSF, Oracle, Vhayu
+    \end{itemize}
+  \item \textbf{Scope} 
+    \begin{itemize}
+    \item Builds for other architectures?
+    \item Builds for other Debian flavours such as Ubuntu?
+    \item Builds of other repositories: BioConductor? R-Forge?
+    \end{itemize}
   \end{itemize}
 \end{frame}
 
