@@ -1,7 +1,6 @@
  - force'ing to a non-existent alias should fail.
- - rm -rf debian/ from tarballs? [ Dirk: I can't see off-hand how pbuilder
-	 would allow for that.  I think we should fix the sources for the
-	 clearly buggy package "race" and move on ]
  - geneland dependency failure in apt *not* cran2deb
- - fine grained bad license breakdown
  - deal with growing database: prune things.
+ - license hashes should have some kind of audit trail
+ - split up dependency structure to support building under different distributions
+
