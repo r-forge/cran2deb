@@ -1,6 +1,6 @@
  - force'ing to a non-existent alias should fail.
- - geneland dependency failure in apt *not* cran2deb
  - deal with growing database: prune things.
- - license hashes should have some kind of audit trail
  - split up dependency structure to support building under different distributions
+ - put build log into another table
+ - build all archs of same package in one go
 
