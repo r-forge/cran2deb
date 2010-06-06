@@ -1,6 +1,16 @@
- - force'ing to a non-existent alias should fail.
- - deal with growing database: prune things.
- - split up dependency structure to support building under different distributions
- - put build log into another table
+soonest:
+ - cran2deb user
  - build all archs of same package in one go
+ - strip all bundle support out
+
+sooner
+ - deal with growing database: prune things.
+ - put build log into another table
+ - add table to mark which packages need xvfb-run; only use xvfb-run for those
+   (and only do those sequentially).
+
+later:
+ - split up dependency structure to support building under different distributions
+ - force'ing to a non-existent alias should fail.
+
 
