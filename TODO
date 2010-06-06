@@ -1,7 +1,7 @@
 soonest:
- - cran2deb user
+ x cran2deb user
  - build all archs of same package in one go
- - strip all bundle support out
+ x strip all bundle support out
 
 sooner
  - deal with growing database: prune things.
