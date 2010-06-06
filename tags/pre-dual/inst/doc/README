@@ -1,0 +1,55 @@
+To install:
+
+$ cd ..
+$ R CMD INSTALL cran2deb
+
+copy cran2deb/exec/cran2deb into somewhere in your executable path (e.g.,
+/usr/local/bin, $home/bin)
+
+
+
+To configure:
+
+1. You need a web server serving from say, /var/www/cran2deb/
+
+Let ROOT be the value returned by running: cran2deb root
+Let SYS be the system you wish to build for (e.g., debian-amd64)
+
+2. create /etc/cran2deb
+   a. copy ROOT/etc/* into /etc/cran2deb/
+   b. ensure ROOT/etc/sys/SYS is set up
+   c. /etc/cran2deb/archive should be a symlink pointing to /var/www/cran2deb/
+
+    $ ln -s /var/www/cran2deb/ /etc/cran2deb/archive
+    $ mkdir /var/www/cran2deb/SYS
+
+   d. modify OTHERMIRROR of /etc/cran2deb/sys/SYS/pbuilderrc.in to point to your webserver
+   e. run: cran2deb repopulate
+
+3. cran2deb needs a persistent cache outside of R's control. therefore, create
+    /var/cache/cran2deb, writable by whichever user(s) will run cran2deb.
+4. add to /etc/rc.local:
+	# one mini-dinstall daemon for each apt repo
+	for sys in debian-i386 debian-amd64
+	do
+        	mini-dinstall -c /etc/cran2deb/sys/$sys/mini-dinstall.conf
+	done
+   and execute.
+
+5. run: cran2deb update
+6. Try building a simple package: cran2deb build zoo
+   (The result will be in /var/cache/cran2deb/results/SYS)
+
+
+$ cran2deb help
+will display a short summary of help for each cran2deb command.
+
+
+Concerning data/:
+This contains scripts necessary to recreate the database should you lose the
+database. It's a backup that can be versioned by SVN. There is a script called
+pull that, when run from the data directory will recreate all the files from
+the database EXCEPT for the licenses. The licenses cannot be recreated because
+licenses can be based on one-way hashes.  This process could certainly be
+improved.
+
