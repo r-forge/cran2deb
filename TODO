@@ -12,6 +12,6 @@ sooner
 later:
  - split up dependency structure to support building under different distributions
  - force'ing to a non-existent alias should fail.
- - (rev315) the Rmpi and npRmpi packages fail at the end of R CMD INSTALL because the test load of the package fails (outside of an MPI context)
+ - (rev315) the Rmpi, npRmpi and doMPI packages fail at the end of R CMD INSTALL because the test load of the package fails (outside of an MPI context)
    so added a crude hack that when the debian/rules is written, 'extraInstallArgs="--no-test-load"' is added (as I do for Debian's Rmpi package)
    conceivably we may want to generalise this one day as we do for lintian tests and patches and either look at at directory or a db table
