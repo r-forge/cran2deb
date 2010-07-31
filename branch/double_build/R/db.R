@@ -11,6 +11,7 @@ db_start <- function() {
     if (!dbExistsTable(con,'debian_dependency')) {
         dbGetQuery(con,paste('CREATE TABLE debian_dependency ('
                   ,' id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL'
+                  ,',system TEXT NOT NULL'
                   ,',alias TEXT NOT NULL'
                   ,',build INTEGER NOT NULL'
                   ,',debian_pkg TEXT NOT NULL'
@@ -70,6 +71,7 @@ db_start <- function() {
     if (!dbExistsTable(con,'blacklist_packages')) {
         dbGetQuery(con,paste('CREATE TABLE blacklist_packages ('
                   ,' package TEXT PRIMARY KEY NOT NULL '
+                  ,',system TEXT NOT NULL'
                   ,',nonfree INTEGER NOT NULL DEFAULT 0'
                   ,',obsolete INTEGER NOT NULL DEFAULT 0'
                   ,',broken_dependency INTEGER NOT NULL DEFAULT 0'
@@ -169,7 +171,8 @@ db_get_depends <- function(depend_alias,build=F) {
     results <- dbGetQuery(con,paste(
                     'SELECT DISTINCT debian_pkg FROM debian_dependency WHERE'
                     ,db_quote(tolower(depend_alias)),'= alias'
-                    ,'AND',as.integer(build),'= build'))
+                    ,'AND',as.integer(build),'= build',
+                    ,'AND',db_quote(which_system),'= system'))
     db_stop(con)
     return(results$debian_pkg)
 }
@@ -178,7 +181,8 @@ db_add_depends <- function(depend_alias,debian_pkg,build=F) {
     con <- db_start()
     results <- dbGetQuery(con,paste(
                      'INSERT OR REPLACE INTO debian_dependency'
-                    ,'(alias, build, debian_pkg) VALUES ('
+                    ,'(system, alias, build, debian_pkg) VALUES ('
+                    ,' ',db_quote(which_system)
                     ,' ',db_quote(tolower(depend_alias))
                     ,',',as.integer(build)
                     ,',',db_quote(tolower(debian_pkg))
@@ -188,7 +192,7 @@ db_add_depends <- function(depend_alias,debian_pkg,build=F) {
 
 db_depends <- function() {
     con <- db_start()
-    depends <- dbGetQuery(con,paste('SELECT * FROM debian_dependency'))
+    depends <- dbGetQuery(con,paste('SELECT * FROM debian_dependency WHERE system = ',db_quote(which_system)))
     db_stop(con)
     return(depends)
 }
@@ -435,14 +439,16 @@ db_outdated_packages <- function() {
 
 db_blacklist_packages <- function() {
     con <- db_start()
-    packages <- dbGetQuery(con,'SELECT package from blacklist_packages')$package
+    packages <- dbGetQuery(con,paste('SELECT package from blacklist_packages'
+                                    ,' where system=',db_quote(which_system)))$package
     db_stop(con)
     return(packages)
 }
 
 db_blacklist_reasons <- function () {
     con <- db_start()
-    packages <- dbGetQuery(con,'SELECT package,explanation from blacklist_packages group by explanation')
+    packages <- dbGetQuery(con,paste('SELECT package,explanation from blacklist_packages'
+                                    ,'where system=',db_quote(which_system),' group by explanation'))
     db_stop(con)
     return(packages)
 }
@@ -465,7 +471,8 @@ db_successful_builds <- function() {
                               from builds natural join (select system,package,max(id) as id
                                                         from builds
                                                         where package not in
-                                                                (select package from blacklist_packages)
+                                                                (select package from blacklist_packages
+                                                                 where blacklist_packages.system == builds.system)
                                                         group by package,system)
                               where success = 1')
     db_stop(con)
