@@ -171,7 +171,7 @@ db_get_depends <- function(depend_alias,build=F) {
     results <- dbGetQuery(con,paste(
                     'SELECT DISTINCT debian_pkg FROM debian_dependency WHERE'
                     ,db_quote(tolower(depend_alias)),'= alias'
-                    ,'AND',as.integer(build),'= build',
+                    ,'AND',as.integer(build),'= build'
                     ,'AND',db_quote(which_system),'= system'))
     db_stop(con)
     return(results$debian_pkg)
